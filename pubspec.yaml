@@ -35,23 +35,17 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   
-  # Voice recognition
-  speech_to_text: ^7.0.0
-  permission_handler: ^11.3.1
-  
-  # Rich text editing
-  flutter_quill: ^9.0.0
+  # Voice recognition  
+  speech_to_text: ^6.6.2
+  permission_handler: ^10.4.5
   
   # Storage
-  sqflite: ^2.3.3+1
-  path_provider: ^2.1.4
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
   path: ^1.8.3
   
   # Date formatting
-  intl: ^0.20.2
-  
-  # Icons
-  material_design_icons_flutter: ^7.0.7296
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

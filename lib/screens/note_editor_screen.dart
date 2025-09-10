@@ -52,10 +52,10 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
 
   Future<void> _initializeVoiceRecognition() async {
     try {
-      final isAvailable = await _voiceService.initialize();
-      print('Voice recognition available: $isAvailable');
+      await _voiceService.initialize();
+      // Voice recognition initialized (disabled for compatibility)
     } catch (e) {
-      print('Error initializing voice recognition: $e');
+      // Error initializing voice recognition
     }
   }
 
@@ -195,7 +195,7 @@ class _NoteEditorScreenState extends State<NoteEditorScreen> {
             _contentController.value = _contentController.value.copyWith(
               text: newText,
               selection: TextSelection.collapsed(
-                offset: selection.start + text.length + 1,
+                offset: selection.start + text.length.toInt() + 1,
               ),
             );
           }
