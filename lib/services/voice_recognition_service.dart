@@ -15,8 +15,6 @@ class VoiceRecognitionService {
 
   Future<bool> initialize() async {
     try {
-      print('Initializing voice recognition...');
-      
       // First check if speech recognition is available on the device
       _isAvailable = await _speech.initialize(
         onError: (error) {
@@ -64,22 +62,22 @@ class VoiceRecognitionService {
     }
 
     try {
-      print('Starting to listen...');
       _isListening = true;
+      print('Starting to listen...');
+      
       await _speech.listen(
         onResult: (result) {
-          print('Speech result: "${result.recognizedWords}", confidence: ${result.confidence}, final: ${result.finalResult}');
-          onResult(result.recognizedWords);
+          if (result.hasConfidenceRating && result.confidence > 0.5) {
+            onResult(result.recognizedWords);
+          }
         },
-        localeId: localeId,
-        listenFor: const Duration(seconds: 30),
-        pauseFor: const Duration(seconds: 2),
         listenOptions: SpeechListenOptions(
-          partialResults: true,
+          onDevice: false,
+          listenMode: ListenMode.confirmation,
           cancelOnError: true,
+          partialResults: false,
         ),
       );
-      print('Listen command sent successfully');
     } catch (e) {
       print('Error starting speech recognition: $e');
       _isListening = false;
@@ -88,6 +86,7 @@ class VoiceRecognitionService {
 
   Future<void> stopListening() async {
     if (_isListening) {
+      print('Stopping speech recognition...');
       await _speech.stop();
       _isListening = false;
     }
@@ -95,12 +94,28 @@ class VoiceRecognitionService {
 
   Future<void> cancelListening() async {
     if (_isListening) {
+      print('Cancelling speech recognition...');
       await _speech.cancel();
       _isListening = false;
     }
   }
 
-  List<String> getAvailableLocales() {
-    return ['en_US', 'en_GB', 'es_ES', 'fr_FR', 'de_DE']; // Common locales
+  Future<bool> hasMicrophone() async {
+    try {
+      return await _speech.hasPermission;
+    } catch (e) {
+      print('Error checking microphone permission: $e');
+      return false;
+    }
+  }
+
+  Future<List<String>> getAvailableLanguages() async {
+    try {
+      final locales = await _speech.locales();
+      return locales.map((locale) => '${locale.name} (${locale.localeId})').toList();
+    } catch (e) {
+      print('Error getting available languages: $e');
+      return ['English (en_US)'];
+    }
   }
 }
