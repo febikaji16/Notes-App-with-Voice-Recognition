@@ -1,7 +1,7 @@
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import '../models/note.dart';
+import '../providers/notes_provider.dart';
 
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();

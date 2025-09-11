@@ -48,6 +48,9 @@ dependencies:
   # Speech to text
   speech_to_text: ^6.6.0
 
+  # Permissions
+  permission_handler: ^11.3.0
+
   # State management
   provider: ^6.1.1
 

@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
+import 'dart:convert';
 
 class Note {
   final String id;
@@ -11,6 +12,7 @@ class Note {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final List<String> tags;
 
   Note({
     required this.id,
@@ -18,7 +20,26 @@ class Note {
     required this.content,
     required this.createdAt,
     required this.updatedAt,
+    this.tags = const [],
   });
+
+  Note copyWith({
+    String? id,
+    String? title,
+    String? content,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    List<String>? tags,
+  }) {
+    return Note(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      tags: tags ?? this.tags,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,6 +48,7 @@ class Note {
       'content': content,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      'tags': jsonEncode(tags),
     };
   }
 
@@ -37,6 +59,7 @@ class Note {
       content: map['content'],
       createdAt: DateTime.parse(map['createdAt']),
       updatedAt: DateTime.parse(map['updatedAt']),
+      tags: map['tags'] != null ? List<String>.from(jsonDecode(map['tags'])) : [],
     );
   }
 
@@ -46,6 +69,7 @@ class Note {
       'content': content,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'tags': tags,
     };
   }
 
@@ -57,6 +81,7 @@ class Note {
       content: data['content'] ?? '',
       createdAt: (data['createdAt'] as Timestamp).toDate(),
       updatedAt: (data['updatedAt'] as Timestamp).toDate(),
+      tags: data['tags'] != null ? List<String>.from(data['tags']) : [],
     );
   }
 }

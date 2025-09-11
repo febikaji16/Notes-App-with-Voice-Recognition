@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/note.dart';
+import '../providers/notes_provider.dart';
 import '../services/database_service.dart';
 import 'note_editor_screen.dart';
 
