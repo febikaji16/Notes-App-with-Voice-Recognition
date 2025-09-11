@@ -18,11 +18,11 @@ class VoiceRecognitionService {
       // First check if speech recognition is available on the device
       _isAvailable = await _speech.initialize(
         onError: (error) {
-          print('Speech recognition error: ${error.errorMsg}');
+          // Speech recognition error occurred
           _isListening = false;
         },
         onStatus: (status) {
-          print('Speech recognition status: $status');
+          // Speech recognition status changed
           if (status == 'done' || status == 'notListening') {
             _isListening = false;
           }
@@ -30,23 +30,22 @@ class VoiceRecognitionService {
       );
 
       if (!_isAvailable) {
-        print('Speech recognition not available on this device');
+        // Speech recognition not available on this device
         return false;
       }
 
       // Then request microphone permission
       final permissionStatus = await Permission.microphone.request();
-      print('Microphone permission status: $permissionStatus');
       
       if (permissionStatus != PermissionStatus.granted) {
-        print('Microphone permission not granted');
+        // Microphone permission not granted
         return false;
       }
 
-      print('Voice recognition initialized successfully');
+      // Voice recognition initialized successfully
       return _isAvailable;
     } catch (e) {
-      print('Error initializing speech recognition: $e');
+      // Error initializing speech recognition
       _isAvailable = false;
       return false;
     }
@@ -57,13 +56,12 @@ class VoiceRecognitionService {
     String localeId = 'en_US',
   }) async {
     if (!_isAvailable || _isListening) {
-      print('Cannot start listening: available=$_isAvailable, listening=$_isListening');
+      // Cannot start listening: either not available or already listening
       return;
     }
 
     try {
       _isListening = true;
-      print('Starting to listen...');
       
       await _speech.listen(
         onResult: (result) {
@@ -79,14 +77,13 @@ class VoiceRecognitionService {
         ),
       );
     } catch (e) {
-      print('Error starting speech recognition: $e');
+      // Error starting speech recognition
       _isListening = false;
     }
   }
 
   Future<void> stopListening() async {
     if (_isListening) {
-      print('Stopping speech recognition...');
       await _speech.stop();
       _isListening = false;
     }
@@ -94,7 +91,6 @@ class VoiceRecognitionService {
 
   Future<void> cancelListening() async {
     if (_isListening) {
-      print('Cancelling speech recognition...');
       await _speech.cancel();
       _isListening = false;
     }
@@ -104,7 +100,7 @@ class VoiceRecognitionService {
     try {
       return await _speech.hasPermission;
     } catch (e) {
-      print('Error checking microphone permission: $e');
+      // Error checking microphone permission
       return false;
     }
   }
@@ -114,7 +110,7 @@ class VoiceRecognitionService {
       final locales = await _speech.locales();
       return locales.map((locale) => '${locale.name} (${locale.localeId})').toList();
     } catch (e) {
-      print('Error getting available languages: $e');
+      // Error getting available languages
       return ['English (en_US)'];
     }
   }
