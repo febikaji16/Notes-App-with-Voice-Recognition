@@ -45,10 +45,5 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- Permissions for voice recognition -->
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs access to microphone for voice input in notes.</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app uses speech recognition to convert your speech to text for note taking.</string>
 </dict>
 </plist>

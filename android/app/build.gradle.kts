@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.notesapp"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "27.0.12077973"  // Updated to the required NDK version
+    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -24,7 +24,7 @@ android {
         applicationId = "com.example.notesapp"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 21  // Set to API 21 to support Android 5.0+ (Lollipop)
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
